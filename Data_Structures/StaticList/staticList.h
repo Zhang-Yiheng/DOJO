@@ -1,3 +1,6 @@
+#ifndef STATIC_LIST_H
+#define STATIC_LIST_H
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -14,7 +17,7 @@ struct Node {
 template <typename T>
 class StaticLink final {
 public:
-    StaticLink() {node[0].next = node[0].prev = NULL;};
+    StaticLink() {node[0].next = node[0].prev = 0;};
     ~StaticLink(){};
     void add(T);
     void del(int);
@@ -34,7 +37,7 @@ template <typename T>
 void StaticLink<T>::add(T data) {
     if (vacant.empty()) {       // push back a new node
         nd.data = data;
-        nd.next = NULL;
+        nd.next = 0;
         node.push_back(nd);
         size++;
         node[node[0].prev].next = size;
@@ -46,7 +49,7 @@ void StaticLink<T>::add(T data) {
         int i = vacant.back();
         vacant.pop_back();
         node[i].data = data;
-        node[i].next = NULL;
+        node[i].next = 0;
         node[i].prev = node[0].prev;
         node[node[0].prev].next = i;
         node[0].prev = i;
@@ -58,9 +61,9 @@ void StaticLink<T>::add(T data) {
 template <typename T>
 int StaticLink<T>::pointTo(int n) {
     if (size == 0) 
-        return NULL;
+        return 0;
     else if (n <= 0 || size < n) 
-        return NULL;
+        return 0;
     else {
         int pointer;
         if (n <= size/2) {
@@ -86,7 +89,7 @@ void StaticLink<T>::del(int n) {          // delete nth node
         int pointer = pointTo(n);
         node[node[pointer].prev].next = node[pointer].next;
         node[node[pointer].next].prev = node[pointer].prev;
-        node[pointer].next = node[pointer].prev = NULL;
+        node[pointer].next = node[pointer].prev = 0;
         vacant.push_back(pointer);
         size--;
     }
@@ -117,7 +120,7 @@ void StaticLink<T>::findByVal(T val) {
                 match = true;
             }
             pointer = node[pointer].next; 
-        } while (pointer != NULL);
+        } while (pointer != 0);
         if (!match)
             cout << "No matching data!\n";
     }
@@ -163,7 +166,7 @@ void StaticLink<T>::print() {
         int i = node[0].next, num = 2;
         cout << "1.[←:" << node[i].prev << "|addr:" << i << "|data:" << node[i].data << "|→:" << node[i].next << ']';
         i = node[i].next;
-        while(i != NULL) {
+        while(i != 0) {
             cout << "——" << num++ << ".[←:" << node[i].prev << "|addr:" << i << "|data:" << node[i].data << "|→:" << node[i].next << ']';
             i = node[i].next;
         } 
@@ -171,69 +174,4 @@ void StaticLink<T>::print() {
     }
 }
 
-int main(int argc, char const *argv[])
-{
-    StaticLink<string> stlink;
-    string s, mode;
-    int n;
-
-    cout << "1.add\n2.delete\n3.insert\n4.findByNum\n5.findByVal\n0.exit\nMODE: ";
-    while (cin >> mode) {
-        if (mode == "1") {
-            cout << "\nInput data ('fin' to quit): ";
-            while (cin >> s) {
-                if (s == "fin")
-                    break;
-                stlink.add(s);
-                cout << "\nInput data ('fin' to quit): ";
-            }
-            cout << endl;
-            stlink.print();
-        }
-        else if (mode == "2") {
-            cout << "\nDelete data by serial number ('-1' to quit): ";
-            while (cin >> n) {
-                if (n == -1)
-                    break;
-                stlink.del(n);
-                stlink.print();
-                cout << "\n\nDelete data by serial number ('-1' to quit): ";
-            }
-        }
-        else if (mode == "3") {
-            cout << "\nInsert place ('-1' to quit): ";
-            while (cin >> n) {
-                if (n == -1)
-                    break;
-                cout << "Insert data: ";
-                cin >> s;
-                stlink.insert(n, s);
-                cout << "\nInput place ('-1' to quit): ";
-            }
-            cout << endl;
-            stlink.print();
-        }
-        else if (mode == "4") {
-            cout << "\nFind data by serial number ('-1' to quit): ";
-            while (cin >> n) {
-                if (n == -1)
-                    break;
-                stlink.findByNum(n);
-                cout << "\nFind data by serial number ('-1' to quit): ";
-            }
-        }
-        else if (mode == "5") {
-            cout << "\nFind data by value ('fin' to quit): ";
-            while (cin >> s) {
-                if (s == "fin")
-                    break;
-                stlink.findByVal(s);
-                cout << "\nFind data by value ('fin' to quit): ";
-            }
-        }
-        else if (mode == "0")
-            break;
-        cout << "\n\n1.add\n2.delete\n3.insert\n4.findByNum\n5.findByVal\n0.exit\nMODE: ";
-    }
-    return 0;
-}
+#endif
