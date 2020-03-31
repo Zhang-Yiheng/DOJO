@@ -8,14 +8,16 @@
 主串：  SUBSTRING SEARCH
 模式串：          SEARCH
 */
-
+#pragma once
+#ifndef SUNDAY_HPP
+#define SUNDAY_HPP
 #include <string>
 #include <vector>
 
 int sunday_search(const std::string& str, const std::string& pattern)
 {
     const int pl = pattern.length();
-    std::vector<int> step(256, 0);
+    std::vector<int> step(256);
     for (int i = 1; i <= pl; i++)
     {
         if (step[pattern[pl-i]]==0)
@@ -43,3 +45,4 @@ int sunday_search(const std::string& str, const std::string& pattern)
     
     return sp-str.begin();
 }
+#endif

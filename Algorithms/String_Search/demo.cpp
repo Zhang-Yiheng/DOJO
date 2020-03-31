@@ -35,11 +35,11 @@ int main(int argc, char const *argv[])
 );
     const std::string sub1("variants");
     const std::string sub2("Theta");
-    std::cout << "sunday_search" << std::endl;
-    std::cout << sunday_search(str, sub1) << std::endl;
-    std::cout << sunday_search(str, sub2) << std::endl;
     std::cout << "kmp_search" << std::endl;
     std::cout << kmp_search(str, sub1) << std::endl;
     std::cout << kmp_search(str, sub2) << std::endl;
+    std::cout << "sunday_search" << std::endl;
+    std::cout << sunday_search(str, sub1) << std::endl;
+    std::cout << sunday_search(str, sub2) << std::endl;
     return 0;
 }
